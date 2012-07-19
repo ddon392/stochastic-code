@@ -1,0 +1,38 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2011 The MathWorks, Inc.
+                    R2011b (7.13.0.564) 64-bit (glnxa64)
+                              August 13, 2011
+
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+File genData.m in:
+
+   /home/jmlopez/stochastic-code/chapter_1/false_positive_disease_test.
+
+ld00.e.math.uh.edu has the following specs
+
+specs = 
+
+             Name: 'Intel(R) Core(TM) i3-2100 CPU @ 3.10GHz'
+            Clock: '1600.000 MHz'
+            Cache: '3072 KB'
+    NumProcessors: 2
+           OSType: 'Linux'
+        OSVersion: 'mockbuild@x86-11.phx2.fedoraproject.org'
+
+Running...
+
+Varying sample size...
+
+num_trials = 60, num_N = 30
+Elapsed time is 256.450827 seconds.
+
+Varying probability of disease...
+
+num_points = 30
+Elapsed time is 0.970239 seconds.
+
+Done.

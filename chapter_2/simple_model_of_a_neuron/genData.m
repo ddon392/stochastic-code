@@ -1,0 +1,75 @@
+% simple_model_of_a_neuron genData file
+% 
+%     To generate the first data set, we use the function PIFBT to obtain a
+%     vector of event times and a vector of spike times, which together
+%     help us compute a vector of neuron states.
+% 
+%     To generate the second data set, we use the function PIFWT to obtain
+%     a series of vectors of inter-spike waiting times with different
+%     thresholds, as well as data about the density of different waiting
+%     times that can be put into a histogram.
+%     
+%     http://math.uh.edu/stochastic/Notes/?chapter=2#simple_model_of_a_neuron
+%
+% omarscha (June 24, 2012)
+% University of Houston
+% Department of Mathematics
+
+%--------------------------------------------------------------------------
+% Spike Times
+
+lambda=5;
+thres=6;
+T=10;
+N=1000;
+fprintf('Computing spike times...\n');
+tic;
+[events spikes]=PIFBT(lambda,thres,T,N);
+S=zeros(N,1);
+if events(1)==1;
+    S(1)=1;
+end
+for k=2:N
+    S(k)=S(k-1)+events(k); 
+    if spikes(k)==1
+        S(k)=0;
+    end
+end
+toc
+save('data/data_1.mat','S','events','spikes','thres','N','T');
+
+%--------------------------------------------------------------------------
+% Inter-spike Waiting Times
+
+lambda=5;
+thresh=[5 20 100];
+n1=10000000;
+fprintf('Computing waiting times...\n');
+tic;
+W1=PIFWT(lambda,thresh(1),n1);
+W2=PIFWT(lambda,thresh(2),n1);
+W3=PIFWT(lambda,thresh(3),n1);
+[e1 h1]=histogram(W1,{min(W1),max(W1),.01},'PDF');
+[e2 h2]=histogram(W2,{min(W2),max(W2),.1},'PDF');
+[e3 h3]=histogram(W3,{min(W3),max(W3),.3},'PDF');
+toc
+save('data/data_2.mat','W1','W2','W3','e1','e2','e3','h1','h2','h3','lambda','thresh','n1');
+
+%--------------------------------------------------------------------------
+% Inter-spike Waiting Times CV versus Threshold
+
+lambda=5;
+n2=1000;
+th1=2;
+th2=100;
+W=zeros(th2-th1,1);
+fprintf('Computing sample means and standard deviations...\n');
+tic;
+for k=1:(th2-th1);
+    w=PIFWT(lambda,k+1,n2);
+    muS=sum(w)/n2;
+    stdS=sqrt(sum((w-muS).^2)/(n2-1));
+    W(k)=muS/stdS;
+end
+toc
+save('data/data_3.mat','W','th1','th2');

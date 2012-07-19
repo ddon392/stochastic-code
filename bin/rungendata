@@ -1,0 +1,1 @@
+nohup matlab -nodisplay -r "rungendata" < /dev/null > matlablog.txt &
